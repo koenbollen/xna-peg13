@@ -14,6 +14,8 @@ namespace WindowsGame1
     /// <summary>
     /// Console: https://gist.github.com/koenbollen/942161
     /// Screens: https://gist.github.com/koenbollen/925477
+    /// 
+    /// git: http://pcottle.github.io/learnGitBranching/
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {

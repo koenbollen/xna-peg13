@@ -14,12 +14,14 @@ namespace WindowsGame1
 {
     public class Player : DrawableGameComponent
     {
-
         SpriteBatch spriteBatch;
 
         private Texture2D img;
 
-        private Vector2 position;
+        private Vector2 position = new Vector2(100, 100);
+
+
+        private KeyboardState prevKeyboard;
 
         public Player(Game game)
             : base(game)
@@ -28,12 +30,16 @@ namespace WindowsGame1
 
         public override void Initialize()
         {
+            Settings settings = (Settings)this.Game.Services.GetService(typeof(Settings));
+            spriteBatch = (SpriteBatch)this.Game.Services.GetService(typeof(SpriteBatch));
+
+            prevKeyboard = Keyboard.GetState();
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             this.img = this.Game.Content.Load<Texture2D>("Capture");
 
             base.LoadContent();
@@ -41,17 +47,19 @@ namespace WindowsGame1
 
         public override void Update(GameTime gameTime)
         {
-            position += new Vector2(10, 0) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            KeyboardState ks = Keyboard.GetState();
+
+            if (prevKeyboard.IsKeyUp(Keys.D) && ks.IsKeyDown(Keys.D))
+                this.position.X += 5 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+            prevKeyboard = ks;
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            this.spriteBatch.Begin();
-
             this.spriteBatch.Draw(this.img, position, Color.White);
-
-            this.spriteBatch.End();
 
             base.Draw(gameTime);
         }
